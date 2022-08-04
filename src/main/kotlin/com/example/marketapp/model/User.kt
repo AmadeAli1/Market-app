@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank
 
 @Table("Usuario")
 data class User(
-    @NotBlank @Email @Column("email") val email: String,
-    @NotBlank @Column("username") val username: String,
-    @NotBlank @Min(6) @Column("password") var password: String,
-    @NotBlank @Column("address") val address: String? = null,
+    @field:NotBlank @field:Email @Column("email") val email: String,
+    @field:NotBlank @field:Column("username") val username: String,
+    @field:NotBlank @field:Min(6) @Column("password") var password: String,
+    @field:NotBlank @Column("address") val address: String? = null,
     @Column("postalCode") var postalCode: String? = null,
     @Column("imageUrl") var imageUrl: String? = null,
     @Column("isOpen") var isOpen: Boolean = false,
