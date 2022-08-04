@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank
 
 @Table("Usuario")
 data class User(
+
     @NotBlank @Email @Column("email") val email: String,
     @NotBlank @Column("username") val username: String,
     @NotBlank @Column("password") var password: String,
