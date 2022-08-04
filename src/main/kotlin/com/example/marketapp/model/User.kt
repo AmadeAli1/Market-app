@@ -13,7 +13,7 @@ data class User(
     @NotBlank @Column("username") val username: String,
     @NotBlank @Column("password") var password: String,
     @NotBlank @Column("address") val address: String? = null,
-    @Column("postalCode") val postalCode: String? = null,
+    @Column("postalCode") var postalCode: String? = null,
     @Column("imageUrl") var imageUrl: String? = null,
     @Column("isOpen") var isOpen: Boolean = false,
 ) {
