@@ -15,7 +15,10 @@ class AccountController(
     private val userService: UserService,
     private val validation: ValidationRequest,
 ) {
-    @PostMapping("/register")
+    @PostMapping(
+        "/register", consumes = [MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_OCTET_STREAM_VALUE]
+    )
     suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
         val isValid = validation.validateRequest(user)
         if (isValid != null) {
