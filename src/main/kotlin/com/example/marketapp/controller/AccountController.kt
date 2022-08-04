@@ -19,9 +19,10 @@ class AccountController(
     suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
         val isValid = validation.validateRequest(user)
         if (isValid != null) {
-
+            println("In")
             return isValid
         }
+        println("OUT")
         return userService.save(user = user)
     }
 
