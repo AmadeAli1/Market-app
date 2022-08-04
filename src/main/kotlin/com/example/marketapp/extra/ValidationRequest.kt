@@ -1,15 +1,13 @@
 package com.example.marketapp.extra
 
 import com.example.marketapp.exception.Message
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.springframework.context.annotation.Scope
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import javax.validation.Validator
 
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+//@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 class ValidationRequest(
     private val validator: Validator,
 ) {
