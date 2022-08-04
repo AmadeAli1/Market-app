@@ -1,24 +1,20 @@
 package com.example.marketapp
 
-import com.example.marketapp.service.UserService
+import com.example.marketapp.repository.AccountRepository
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MarketAppApplication : CommandLineRunner {
+class MarketAppApplication(val repository: AccountRepository) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         runBlocking {
 
-//            service.save(
-//                user = User(
-//                    email = "aliamade29@gmail.com",
-//                    username = "Amade Ali",
-//                    password = "amade123"
-//                )
-//            )
+            var login = repository.findByEmail("aliamade29@gmail.com")
+            println(login)
 
         }
     }

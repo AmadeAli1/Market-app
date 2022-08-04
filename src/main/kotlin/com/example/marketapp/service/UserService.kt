@@ -101,11 +101,11 @@ class UserService(
     }
 
     private suspend fun findByEmail(email: String): User? {
-        return accountRepository.findByEmail(email = flowOf(email))
+        return accountRepository.findByEmail(email = email)
     }
 
     private suspend fun validateEmail(email: String): Boolean {
-        return accountRepository.existsByEmail(email = flowOf(email))
+        return accountRepository.existsByEmail(email = email)
     }
 
     private fun encondePassword(password: String): String {

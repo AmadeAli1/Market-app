@@ -25,8 +25,8 @@ class TokenService(
         val tokenUUID = UUID.fromString(tokenId)
 
         val token = tokenRepository.findByUidAndValid(
-            uid = flowOf(tokenUUID),
-            valid = flowOf(true)
+            uid = tokenUUID,
+            valid = true
         )
         if (token == null) {
             return invalidBlock("This token not exists")
