@@ -1,20 +1,25 @@
 package com.example.marketapp.controller
 
+import com.example.marketapp.extra.ValidationRequest
 import com.example.marketapp.model.User
 import com.example.marketapp.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
 
 @RequestMapping("/api/account")
 @RestController
 class AccountController(
     private val userService: UserService,
+    private val validation: ValidationRequest,
 ) {
     @PostMapping("/register")
-    suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
+    suspend fun save(@RequestBody user: User): ResponseEntity<out Any> {
+        val isValid = validation.validateRequest(user)
+        if (isValid != null) {
+            return isValid
+        }
         return userService.save(user = user)
     }
 

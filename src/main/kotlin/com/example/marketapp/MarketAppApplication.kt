@@ -13,9 +13,6 @@ class MarketAppApplication(val repository: AccountRepository) : CommandLineRunne
     override fun run(vararg args: String?) {
         runBlocking {
 
-            var login = repository.findByEmail("aliamade29@gmail.com")
-            println(login)
-
         }
     }
 }

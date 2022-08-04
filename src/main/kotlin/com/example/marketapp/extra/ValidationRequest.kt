@@ -13,7 +13,7 @@ import javax.validation.Validator
 class ValidationRequest(
     private val validator: Validator,
 ) {
-    fun <T> validateRequest(request: T): ResponseEntity<Any>? {
+    fun <T> validateRequest(request: T): ResponseEntity<out Any>? {
         val validate = validator.validate(request)
         if (validate.isNotEmpty()) {
             val erros = validate.map {
