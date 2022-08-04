@@ -12,7 +12,6 @@ class ValidationExceptionHandler {
 
     @ExceptionHandler(WebExchangeBindException::class)
     suspend fun invalidRequest(e: WebExchangeBindException): ResponseEntity<List<Message>> {
-        println("Called")
         val erros = e.bindingResult.allErrors.stream().map {
             lateinit var error: Message
             if (it is FieldError) {

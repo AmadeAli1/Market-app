@@ -12,20 +12,13 @@ import javax.validation.Valid
 @RequestMapping("/api/account")
 @RestController
 class AccountController(
-    private val userService: UserService,
-    private val validation: ValidationRequest,
+    private val userService: UserService
 ) {
     @PostMapping(
         "/register", consumes = [MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_OCTET_STREAM_VALUE]
     )
     suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
-        val isValid = validation.validateRequest(user)
-        if (isValid != null) {
-            println("In")
-            return isValid
-        }
-        println("OUT")
         return userService.save(user = user)
     }
 
