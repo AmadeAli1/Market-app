@@ -1,18 +1,16 @@
 package com.example.marketapp.controller
 
-import com.example.marketapp.extra.ValidationRequest
 import com.example.marketapp.model.User
 import com.example.marketapp.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.http.codec.multipart.FilePart
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RequestMapping("/api/account")
 @RestController
 class AccountController(
-    private val userService: UserService
+    private val userService: UserService,
 ) {
     @PostMapping(
         "/register", consumes = [MediaType.APPLICATION_JSON_VALUE,
@@ -43,19 +41,14 @@ class AccountController(
         return userService.confirmToken(token)
     }
 
-    @PostMapping(
-        "/profile", consumes = [
-            MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE,
-            MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.APPLICATION_JSON_VALUE
-        ]
-    )
+    @PostMapping("/profile")
     suspend fun changeProfilePicture(
-        @RequestPart("file") file: FilePart,
+        @RequestParam("imageUrl") imageUrl: String,
         @RequestParam("userId", required = true) id: String,
     ): ResponseEntity<out Any> {
-        val linkDownload = userService.save(image = file)
-        return userService.changeProfilePicture(userId = id, imageUrl = linkDownload)
+        return userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
     }
+
 
     @DeleteMapping("/profile")
     suspend fun deleteProfile(

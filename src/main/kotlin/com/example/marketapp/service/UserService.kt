@@ -4,7 +4,6 @@ import com.example.marketapp.exception.Message
 import com.example.marketapp.extra.ImageService
 import com.example.marketapp.model.User
 import com.example.marketapp.repository.AccountRepository
-import kotlinx.coroutines.flow.flowOf
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -74,15 +73,9 @@ class UserService(
             update(user)
             ResponseEntity.ok("Profile picture updated!")
         } else {
-            val imageId = user.imageUrl!!.drop(this.imageUrl!!.length).toInt()
-            val deleteStatus = imageService.deleteById(id = imageId)
-            if (deleteStatus == 1) {
-                user.imageUrl = null
-                update(user)
-                ResponseEntity.ok("Profile picture removed!")
-            } else {
-                invalidBlock(message = "An error occurred while removing the profile picture")
-            }
+            user.imageUrl = null
+            update(user)
+            ResponseEntity.ok("Profile picture removed!")
         }
     }
 
