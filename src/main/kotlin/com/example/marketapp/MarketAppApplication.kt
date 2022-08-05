@@ -1,6 +1,7 @@
 package com.example.marketapp
 
 import com.example.marketapp.repository.AccountRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.CommandLineRunner
@@ -12,7 +13,9 @@ class MarketAppApplication(val repository: AccountRepository) : CommandLineRunne
 
     override fun run(vararg args: String?) {
         runBlocking {
-
+            repository.findAll().collect{
+                println(it)
+            }
         }
     }
 }
