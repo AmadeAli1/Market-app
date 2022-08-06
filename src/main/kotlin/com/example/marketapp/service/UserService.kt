@@ -4,6 +4,7 @@ import com.example.marketapp.exception.Message
 import com.example.marketapp.extra.ImageService
 import com.example.marketapp.model.User
 import com.example.marketapp.repository.AccountRepository
+import com.example.marketapp.response.ApiResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -66,16 +67,18 @@ class UserService(
         return tokenService.confirmToken(tokenId = token)
     }
 
-    suspend fun changeProfilePicture(userId: String, imageUrl: String?): ResponseEntity<String> {
+    suspend fun changeProfilePicture(userId: String, imageUrl: String?): ResponseEntity<ApiResponse> {
         val user = accountRepository.findById(UUID.fromString(userId))!!
         return if (imageUrl != null) {
             user.imageUrl = imageUrl
             update(user)
-            ResponseEntity.ok("Profile picture updated!")
+            println("Profile picture updated!")
+            ResponseEntity.ok(ApiResponse("Profile picture updated!"))
         } else {
             user.imageUrl = null
             update(user)
-            ResponseEntity.ok("Profile picture removed!")
+            println("Profile picture removed!")
+            ResponseEntity.ok(ApiResponse("Profile picture removed!"))
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.marketapp.controller
 
 import com.example.marketapp.model.User
+import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -45,17 +46,15 @@ class AccountController(
     suspend fun changeProfilePicture(
         @RequestParam("imageUrl", required = true) imageUrl: String,
         @RequestParam("userId", required = true) id: String,
-    ): ResponseEntity<String> {
-        val changeProfilePicture = userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
-        println(changeProfilePicture.body)
-        return changeProfilePicture
+    ): ResponseEntity<ApiResponse> {
+        return userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
     }
 
 
     @DeleteMapping("/profile")
     suspend fun deleteProfile(
         @RequestParam("userId", required = true) id: String,
-    ): ResponseEntity<String> {
+    ): ResponseEntity<ApiResponse> {
         return userService.changeProfilePicture(userId = id, imageUrl = null)
     }
 
