@@ -1,5 +1,6 @@
 package com.example.marketapp
 
+import kotlinx.coroutines.runBlocking
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -8,7 +9,8 @@ import org.springframework.boot.runApplication
 class MarketAppApplication : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-
+        runBlocking {
+        }
     }
 }
 

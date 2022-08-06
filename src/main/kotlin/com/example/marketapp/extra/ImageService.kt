@@ -2,7 +2,6 @@ package com.example.marketapp.extra
 
 import com.example.marketapp.exception.ApiException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
@@ -38,7 +37,7 @@ class ImageService(
                 val image = Image(
                     image = img,
                     type = type,
-                    name = name + UUID.randomUUID().toString()
+                    name = UUID.randomUUID().toString() + name
                 )
                 return@withContext imageUrl + "${imageRepository.save(image).id}"
             } catch (e: Exception) {
@@ -53,7 +52,7 @@ class ImageService(
     }
 
     suspend fun deleteById(id: Int) = withContext(Dispatchers.IO) {
-        imageRepository.deleteById(id = flowOf(id))
+        imageRepository.removeById(id = id)
     }
 
 }
