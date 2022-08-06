@@ -46,7 +46,9 @@ class AccountController(
         @RequestParam("imageUrl", required = true) imageUrl: String,
         @RequestParam("userId", required = true) id: String,
     ): ResponseEntity<String> {
-        return userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
+        val changeProfilePicture = userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
+        println(changeProfilePicture.body)
+        return changeProfilePicture
     }
 
 
