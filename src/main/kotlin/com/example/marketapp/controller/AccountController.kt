@@ -43,9 +43,9 @@ class AccountController(
 
     @PostMapping("/profile")
     suspend fun changeProfilePicture(
-        @RequestParam("imageUrl") imageUrl: String,
+        @RequestParam("imageUrl", required = true) imageUrl: String,
         @RequestParam("userId", required = true) id: String,
-    ): ResponseEntity<out Any> {
+    ): ResponseEntity<String> {
         return userService.changeProfilePicture(userId = id, imageUrl = imageUrl)
     }
 
@@ -53,7 +53,7 @@ class AccountController(
     @DeleteMapping("/profile")
     suspend fun deleteProfile(
         @RequestParam("userId", required = true) id: String,
-    ): ResponseEntity<out Any> {
+    ): ResponseEntity<String> {
         return userService.changeProfilePicture(userId = id, imageUrl = null)
     }
 
