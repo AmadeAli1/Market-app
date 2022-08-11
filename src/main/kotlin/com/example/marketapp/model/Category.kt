@@ -18,11 +18,10 @@ data class Category(
     constructor(name: CategoryType?) : this(name, null)
 
     enum class CategoryType {
-        Salted,
         Cakes,
         Cookies,
-        Nuts,
+        Pancakes,
+        Donuts,
         Desserts;
-
     }
 }
