@@ -22,6 +22,7 @@ data class Category(
         Cookies,
         Pancakes,
         Donuts,
+        Cupcakes,
         Desserts;
     }
 }
