@@ -5,6 +5,7 @@ import com.example.marketapp.extra.ImageService
 import com.example.marketapp.model.User
 import com.example.marketapp.repository.AccountRepository
 import com.example.marketapp.response.ApiResponse
+import kotlinx.coroutines.flow.Flow
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -82,6 +83,10 @@ class UserService(
         }
     }
 
+    suspend fun findAll(): Flow<User> {
+        return accountRepository.findAll()
+    }
+
     suspend fun save(image: FilePart): String? {
         return imageService.save(file = image)
     }
@@ -111,6 +116,7 @@ class UserService(
     private fun decodePassword(password: String, encryptedPassword: String): Boolean {
         return passwordEncoder.matches(password, encryptedPassword)
     }
+
 
     companion object {
         fun invalidBlock(message: String, field: String? = null) = ResponseEntity(

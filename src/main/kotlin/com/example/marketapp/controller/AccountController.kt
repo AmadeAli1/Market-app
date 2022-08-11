@@ -3,6 +3,7 @@ package com.example.marketapp.controller
 import com.example.marketapp.model.User
 import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.service.UserService
+import kotlinx.coroutines.flow.Flow
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,6 +20,11 @@ class AccountController(
     )
     suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
         return userService.save(user = user)
+    }
+
+    @GetMapping
+    suspend fun findAll(): Flow<User> {
+        return userService.findAll()
     }
 
     @GetMapping("/login")
