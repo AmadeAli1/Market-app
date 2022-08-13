@@ -80,10 +80,15 @@ class ProductService(
             null
         }
         Page<Product>(
-            data = data, pageSize = data.size,
-            pageNumber = page, totalPages = paginas,
-            totalItems = count, maxPageSize = 20,
-            next = next
+            data = data,
+            pageSize = data.size,
+            pageNumber = page,
+            totalPages = paginas,
+            totalItems = count,
+            maxPageSize = 20,
+            next = next,
+            nextPage = if (next == null) null else page + 1,
+            prevPage = if (page == 1) null else page - 1
         )
     }
 

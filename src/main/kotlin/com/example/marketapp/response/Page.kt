@@ -7,5 +7,7 @@ data class Page<T>(
     val totalPages: Int,
     val totalItems: Long,
     val maxPageSize: Int,
+    val nextPage: Int?,
+    val prevPage: Int?,
     val next: String?,
 )
