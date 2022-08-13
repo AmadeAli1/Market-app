@@ -66,10 +66,10 @@ class ProductService(
         val limit: Double = 20.0
         val count = repository.count()
         val paginas = count.div(limit).plus(1).toInt()
-        val start = if (page == 0) {
+        val start = if (page == 1) {
             0
         } else {
-            page * limit.toInt()
+            (page - 1) * limit.toInt()
         }
 
         val data = repository.findByPage(start = start).map(this@ProductService::mapper).toList()

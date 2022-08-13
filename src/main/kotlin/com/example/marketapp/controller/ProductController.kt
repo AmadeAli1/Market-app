@@ -44,7 +44,7 @@ class ProductController(
 
     @GetMapping
     suspend fun findAllWithPagination(
-        @RequestParam("page", defaultValue = "0") page: Int,
+        @RequestParam("page", defaultValue = "1") page: Int,
     ): ResponseEntity<Page<Product>> {
         val body = productService.findByPage(page = page)
         return ResponseEntity(body, HttpStatus.OK)
