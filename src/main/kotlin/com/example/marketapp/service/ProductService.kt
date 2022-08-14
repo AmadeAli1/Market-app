@@ -20,8 +20,8 @@ class ProductService(
     private val repository: ProductRepository,
 ) {
 
-    @Value(value = "source.api.product.pagination")
-    private val pagination: String? = null
+    @Value(value = "\${source.api.product.pagination}")
+    val pagination: String? = null
 
     suspend fun save(files: MutableList<FilePart>, request: Product): Product {
         lateinit var product: Product
@@ -74,7 +74,7 @@ class ProductService(
 
         val data = repository.findByPage(start = start).map(this@ProductService::mapper).toList()
 
-        val next = if ((data.size == 20).and(count > start * 20)) {
+        val next = if ((data.size == 20).and(count > page * 20)) {
             "${pagination}${page + 1}"
         } else {
             null
