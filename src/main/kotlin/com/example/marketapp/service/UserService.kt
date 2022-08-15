@@ -2,10 +2,12 @@ package com.example.marketapp.service
 
 import com.example.marketapp.exception.Message
 import com.example.marketapp.extra.ImageService
+import com.example.marketapp.model.Address
 import com.example.marketapp.model.User
 import com.example.marketapp.repository.AccountRepository
 import com.example.marketapp.response.ApiResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,6 +22,7 @@ class UserService(
     private val tokenService: TokenService,
     private val emailService: EmailService,
     private val passwordEncoder: PasswordEncoder,
+    private val locationService: LocationService,
     private val imageService: ImageService,
 ) {
     @Value(value = "\${source.api.token}")
@@ -45,6 +48,10 @@ class UserService(
     suspend fun login(email: String, password: String): ResponseEntity<out Any> {
         val account = findByEmail(email = email) ?: return invalidBlock("Account not found", "email")
         if (decodePassword(password = password, encryptedPassword = account.password)) {
+            val location = locationService.findUserLocation(account.uid.toString())
+            if (location != null) {
+                account.address = location
+            }
             return ResponseEntity.ok(account)
         }
         return invalidBlock("Invalid Password", "password")
@@ -52,6 +59,10 @@ class UserService(
 
     suspend fun update(user: User): User {
         return accountRepository.save(user)
+    }
+
+    suspend fun updateLocation(address: Address): Address {
+        return locationService.save(address)
     }
 
     suspend fun changePassword(user: User, password: String): ResponseEntity<User> {
@@ -84,7 +95,10 @@ class UserService(
     }
 
     suspend fun findAll(): Flow<User> {
-        return accountRepository.findAll()
+        return accountRepository.findAll().map {
+            it.address = locationService.findUserLocation(it.uid.toString())
+            it
+        }
     }
 
     suspend fun save(image: FilePart): String? {

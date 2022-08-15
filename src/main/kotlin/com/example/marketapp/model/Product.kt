@@ -1,5 +1,6 @@
 package com.example.marketapp.model
 
+import com.example.marketapp.response.ProductDTO
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Transient
@@ -28,8 +29,19 @@ data class Product(
     @Transient
     var images: List<String>? = null
 
-    @Transient
-    var date: String? = createdAt.format(DateTimeFormatter.ISO_DATE_TIME)
+    fun toProductDTO(category: Category): ProductDTO {
+        return ProductDTO(
+            id = id!!,
+            category = category,
+            name = name,
+            price = price,
+            like = like,
+            images = images!!,
+            description = description,
+            avalible = avalible,
+            date = createdAt.format(DateTimeFormatter.ISO_DATE_TIME)
+        )
+    }
 
     constructor() : this("", 0f, description = "", categoryId = -1)
 

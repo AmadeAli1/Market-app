@@ -4,7 +4,9 @@ import com.example.marketapp.exception.ApiException
 import com.example.marketapp.extra.ImageService
 import com.example.marketapp.extra.PageConfiguration
 import com.example.marketapp.model.Product
+import com.example.marketapp.repository.CategoryRepository
 import com.example.marketapp.repository.ProductRepository
+import com.example.marketapp.response.ProductDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProductService(
     private val imageService: ImageService,
+    private val categoryRepository: CategoryRepository,
     private val repository: ProductRepository,
 ) {
 
@@ -75,10 +78,13 @@ class ProductService(
     }
 
     suspend fun findByNameWithPagination(page: Int, name: String) = withContext(Dispatchers.IO) {
-        val pageConfiguration = PageConfiguration<Product>()
-        lateinit var data: List<Product>
+        val pageConfiguration = PageConfiguration<ProductDTO>()
+        lateinit var data: List<ProductDTO>
         pageConfiguration.config(repository = repository, page) { total, paginas, start ->
-            data = repository.findPageWithName(start = start, name = name).map(this@ProductService::mapper).toList()
+            data = repository.findPageWithName(start = start, name = name).map(this@ProductService::mapper).map {
+                val category = categoryRepository.findById(it.categoryId)!!
+                it.toProductDTO(category)
+            }.toList()
             val next = (data.size == 20).and(total > page * 20)
             return@config pageConfiguration.getPage(
                 data = data,
@@ -89,7 +95,6 @@ class ProductService(
             )
         }
     }
-
 
     private suspend fun mapper(product: Product): Product {
         val imagesUrl = repository.getImagesToProduct(product = product.id!!)

@@ -41,7 +41,7 @@ class TokenService(
                 invalidBlock(message = "The Token has expired")
             } else {
                 val user = accountRepository.findById(id = token.userId)!!
-                user.isOpen = true
+                user.isVerified = true
                 token.confirmedAt = currentTimer
                 token.valid = false
                 accountRepository.save(user)
