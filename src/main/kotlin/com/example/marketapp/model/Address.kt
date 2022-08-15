@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank
 data class Address(
     @field:NotBlank @Column("name") var addressName: String,
     @field:NotBlank var latitude: Double,
-    @field:NotBlank var longitute: Double,
+    @field:NotBlank var longitude: Double,
     @field:NotBlank @Column("userid") val userId: UUID,
 ) {
     @Id
