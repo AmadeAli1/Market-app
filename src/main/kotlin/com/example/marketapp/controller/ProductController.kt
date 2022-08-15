@@ -3,6 +3,7 @@ package com.example.marketapp.controller
 import com.example.marketapp.extra.ValidationRequest
 import com.example.marketapp.model.Product
 import com.example.marketapp.response.Page
+import com.example.marketapp.response.ProductDTO
 import com.example.marketapp.service.ProductService
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.coroutines.Dispatchers
@@ -46,8 +47,8 @@ class ProductController(
     suspend fun findWithPagination(
         @RequestParam("page", defaultValue = "1") page: Int,
         @RequestParam("name", required = false, defaultValue = "") name: String,
-    ): ResponseEntity<Page<Product>> {
-        val response: Page<Product> = if (name.isBlank()) {
+    ): ResponseEntity<Page<ProductDTO>> {
+        val response: Page<ProductDTO> = if (name.isBlank()) {
             productService.findByPage(page = page)
         } else {
             productService.findByNameWithPagination(page = page, name = name)
