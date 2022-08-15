@@ -20,7 +20,6 @@ data class User(
     @Id
     @Column("uid")
     lateinit var uid: UUID
-
     @Transient
     var address: Address? = null
 }
