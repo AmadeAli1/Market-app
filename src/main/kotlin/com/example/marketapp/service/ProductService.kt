@@ -58,10 +58,6 @@ class ProductService(
         return repository.findAllByCategoryId(categoryId = categoryId).map(this::mapper)
     }
 
-    suspend fun seacrhByName(name: String): Flow<Product> {
-        return repository.searchByName(query = name).map(this::mapper)
-    }
-
     suspend fun findByPage(page: Int) = withContext(Dispatchers.IO) {
         val pageConfiguration = PageConfiguration<Product>()
         lateinit var data: List<Product>

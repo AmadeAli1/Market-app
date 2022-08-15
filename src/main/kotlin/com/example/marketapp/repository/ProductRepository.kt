@@ -20,14 +20,10 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     @Query("select * from product limit 20 offset :start")
     fun findPage(start: Int): Flow<Product>
 
-    @Query("select * from product where upper(name) like upper(concat(\$2,'%')) order by name limit 20 offset :start")
+    @Query("select * from product where upper(product.name) like upper(concat($2,'%')) order by product.name limit 20 offset :$1")
     fun findPageWithName(start: Int, name: String): Flow<Product>
 
 
-    @Query("select * from product where upper(product.name) like upper(concat($1,'%')) order by name")
-    fun searchByName(query: String): Flow<Product>
-
     fun findAllByCategoryId(categoryId: Int): Flow<Product>
 
-    //fun searchAllByNameIsLikeIgnoreCase(name: String): Flow<Product>
 }
