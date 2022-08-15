@@ -2,9 +2,9 @@ package com.example.marketapp.service
 
 import com.example.marketapp.exception.ApiException
 import com.example.marketapp.extra.ImageService
+import com.example.marketapp.extra.PageConfiguration
 import com.example.marketapp.model.Product
 import com.example.marketapp.repository.ProductRepository
-import com.example.marketapp.response.Page
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -63,33 +63,35 @@ class ProductService(
     }
 
     suspend fun findByPage(page: Int) = withContext(Dispatchers.IO) {
-        val limit: Double = 20.0
-        val count = repository.count()
-        val paginas = count.div(limit).plus(1).toInt()
-        val start = if (page == 1) {
-            0
-        } else {
-            (page - 1) * limit.toInt()
+        val pageConfiguration = PageConfiguration<Product>()
+        lateinit var data: List<Product>
+        pageConfiguration.config(repository = repository, page) { total, paginas, start ->
+            data = repository.findPage(start = start).map(this@ProductService::mapper).toList()
+            val next = (data.size == 20).and(total > page * 20)
+            return@config pageConfiguration.getPage(
+                data = data,
+                paginas = paginas,
+                totalItems = total,
+                page = page,
+                hasNext = next
+            )
         }
+    }
 
-        val data = repository.findByPage(start = start).map(this@ProductService::mapper).toList()
-
-        val next = if ((data.size == 20).and(count > page * 20)) {
-            "${pagination}${page + 1}"
-        } else {
-            null
+    suspend fun findByNameWithPagination(page: Int, name: String) = withContext(Dispatchers.IO) {
+        val pageConfiguration = PageConfiguration<Product>()
+        lateinit var data: List<Product>
+        pageConfiguration.config(repository = repository, page) { total, paginas, start ->
+            data = repository.findPageWithName(start = start, name = name).map(this@ProductService::mapper).toList()
+            val next = (data.size == 20).and(total > page * 20)
+            return@config pageConfiguration.getPage(
+                data = data,
+                paginas = paginas,
+                totalItems = total,
+                page = page,
+                hasNext = next
+            )
         }
-        Page<Product>(
-            data = data,
-            pageSize = data.size,
-            pageNumber = page,
-            totalPages = paginas,
-            totalItems = count,
-            maxPageSize = 20,
-            next = next,
-            nextPage = if (next == null) null else page + 1,
-            prevPage = if (page == 1) null else page - 1
-        )
     }
 
 

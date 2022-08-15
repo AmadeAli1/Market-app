@@ -8,6 +8,5 @@ data class Page<T>(
     val totalItems: Long,
     val maxPageSize: Int,
     val nextPage: Int?,
-    val prevPage: Int?,
-    val next: String?,
+    val prevPage: Int?
 )

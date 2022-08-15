@@ -18,7 +18,11 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     suspend fun getImagesToProduct(product: Int): Flow<String>
 
     @Query("select * from product limit 20 offset :start")
-    fun findByPage(start: Int): Flow<Product>
+    fun findPage(start: Int): Flow<Product>
+
+    @Query("select * from product where upper(name) like upper(concat(\$2,'%')) order by name limit 20 offset :start")
+    fun findPageWithName(start: Int, name: String): Flow<Product>
+
 
     @Query("select * from product where upper(product.name) like upper(concat($1,'%')) order by name")
     fun searchByName(query: String): Flow<Product>

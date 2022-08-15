@@ -43,18 +43,16 @@ class ProductController(
     }
 
     @GetMapping
-    suspend fun findAllWithPagination(
+    suspend fun findWithPagination(
         @RequestParam("page", defaultValue = "1") page: Int,
+        @RequestParam("name", required = false, defaultValue = "") name: String,
     ): ResponseEntity<Page<Product>> {
-        val body = productService.findByPage(page = page)
-        return ResponseEntity(body, HttpStatus.OK)
-    }
-
-    @GetMapping("/search")
-    suspend fun findItemByName(
-        @RequestParam(name = "name", required = true) name: String,
-    ): ResponseEntity<Flow<Product>> = withContext(Dispatchers.IO) {
-        ResponseEntity.ok(productService.seacrhByName(name = name))
+        val response: Page<Product> = if (name.isBlank()) {
+            productService.findByPage(page = page)
+        } else {
+            productService.findByNameWithPagination(page = page, name = name)
+        }
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
     @GetMapping("/category")
