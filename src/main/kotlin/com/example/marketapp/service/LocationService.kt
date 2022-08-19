@@ -11,6 +11,10 @@ class LocationService(
 ) {
 
     suspend fun save(address: Address): Address {
+        val address1 = findUserLocation(address.userId.toString())
+        if (address1 != null) {
+            address.id = address1.id
+        }
         return repository.save(entity = address)
     }
 
