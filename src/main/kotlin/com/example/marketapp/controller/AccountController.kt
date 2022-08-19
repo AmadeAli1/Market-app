@@ -1,5 +1,6 @@
 package com.example.marketapp.controller
 
+import com.example.marketapp.model.Address
 import com.example.marketapp.model.User
 import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.service.UserService
@@ -20,6 +21,11 @@ class AccountController(
     )
     suspend fun save(@Valid @RequestBody user: User): ResponseEntity<out Any> {
         return userService.save(user = user)
+    }
+
+    @PutMapping("/location")
+    suspend fun addLocation(@Valid @RequestBody address: Address): Address {
+        return userService.updateLocation(address = address)
     }
 
     @GetMapping

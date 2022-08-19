@@ -9,7 +9,7 @@ import java.util.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
-@Table("Usuario")
+@Table("usuario")
 data class User(
     @field:NotBlank @field:Email @Column("email") val email: String,
     @field:NotBlank @field:Column("username") val username: String,
@@ -20,6 +20,7 @@ data class User(
     @Id
     @Column("uid")
     lateinit var uid: UUID
+
     @Transient
     var address: Address? = null
 }

@@ -1,5 +1,6 @@
 package com.example.marketapp.service
 
+import com.example.marketapp.exception.ApiException
 import com.example.marketapp.exception.Message
 import com.example.marketapp.extra.ImageService
 import com.example.marketapp.model.Address
@@ -37,21 +38,18 @@ class UserService(
         }
         user.password = encondePassword(password = user.password)
         val saved = accountRepository.save(entity = user)
-
         val token = tokenService.save(saved.uid)
         sendConfirmationToken(user = saved, token = token)
         println(saved)
         return ResponseEntity.ok(saved)
     }
 
-
     suspend fun login(email: String, password: String): ResponseEntity<out Any> {
         val account = findByEmail(email = email) ?: return invalidBlock("Account not found", "email")
+        println(account)
         if (decodePassword(password = password, encryptedPassword = account.password)) {
             val location = locationService.findUserLocation(account.uid.toString())
-            if (location != null) {
-                account.address = location
-            }
+            account.address = location
             return ResponseEntity.ok(account)
         }
         return invalidBlock("Invalid Password", "password")
@@ -62,7 +60,11 @@ class UserService(
     }
 
     suspend fun updateLocation(address: Address): Address {
-        return locationService.save(address)
+        try {
+            return locationService.save(address)
+        } catch (e: Exception) {
+            throw ApiException("An error occurred while update your location!")
+        }
     }
 
     suspend fun changePassword(user: User, password: String): ResponseEntity<User> {

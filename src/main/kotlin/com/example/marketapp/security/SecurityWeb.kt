@@ -34,4 +34,5 @@ class SecurityWeb {
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
 }
