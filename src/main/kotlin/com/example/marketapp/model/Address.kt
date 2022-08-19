@@ -12,7 +12,7 @@ data class Address(
     @field:NotBlank @Column("name") var addressName: String,
     @field:NotNull var latitude: Double,
     @field:NotNull var longitude: Double,
-    @field:NotBlank @Column("userid") val userId: UUID,
+    @field:NotNull @Column("userid") val userId: UUID,
 ) {
     @Id
     @Column("id")
