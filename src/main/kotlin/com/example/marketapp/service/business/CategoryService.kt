@@ -1,8 +1,8 @@
-package com.example.marketapp.service
+package com.example.marketapp.service.business
 
 import com.example.marketapp.extra.ImageService
-import com.example.marketapp.model.Category
-import com.example.marketapp.repository.CategoryRepository
+import com.example.marketapp.model.business.Category
+import com.example.marketapp.repository.business.CategoryRepository
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 

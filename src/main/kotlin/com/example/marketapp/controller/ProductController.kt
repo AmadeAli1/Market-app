@@ -1,13 +1,12 @@
 package com.example.marketapp.controller
 
 import com.example.marketapp.extra.ValidationRequest
-import com.example.marketapp.model.Product
+import com.example.marketapp.model.business.Product
 import com.example.marketapp.response.Page
 import com.example.marketapp.response.ProductDTO
-import com.example.marketapp.service.ProductService
+import com.example.marketapp.service.business.ProductService
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -58,9 +57,12 @@ class ProductController(
 
     @GetMapping("/category")
     suspend fun findProductByCategory(
-        @RequestParam(name = "id", required = true) category: Int,
-    ): ResponseEntity<Flow<Product>> = withContext(Dispatchers.IO) {
-        ResponseEntity.ok(productService.searchByCategoria(categoryId = category))
+        @RequestParam(name = "page", defaultValue = "1") page: Int,
+        @RequestParam(name = "id", required = true) id: Int,
+        @RequestParam(name = "name", required = false, defaultValue = "") name: String,
+    ): ResponseEntity<Page<ProductDTO>> {
+        val response = productService.searchByCategoria(page = page, categoryId = id, name = name)
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
 

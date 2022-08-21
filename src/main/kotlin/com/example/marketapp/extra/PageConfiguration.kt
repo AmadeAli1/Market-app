@@ -1,6 +1,6 @@
 package com.example.marketapp.extra
 
-import com.example.marketapp.repository.ProductRepository
+import com.example.marketapp.repository.business.ProductRepository
 import com.example.marketapp.response.Page
 
 class PageConfiguration<T> {

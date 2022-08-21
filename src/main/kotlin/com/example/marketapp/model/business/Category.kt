@@ -1,4 +1,4 @@
-package com.example.marketapp.model
+package com.example.marketapp.model.business
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column

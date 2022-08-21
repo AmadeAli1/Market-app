@@ -1,8 +1,8 @@
 @file:Suppress("SpringDataRepositoryMethodReturnTypeInspection")
 
-package com.example.marketapp.repository
+package com.example.marketapp.repository.client
 
-import com.example.marketapp.model.User
+import com.example.marketapp.model.client.User
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import java.util.*

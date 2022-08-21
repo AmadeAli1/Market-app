@@ -1,6 +1,6 @@
 package com.example.marketapp.response
 
-import com.example.marketapp.model.Category
+import com.example.marketapp.model.business.Category
 
 data class ProductDTO(
     val id: Int,

@@ -1,6 +1,6 @@
-package com.example.marketapp.repository
+package com.example.marketapp.repository.client
 
-import com.example.marketapp.model.Token
+import com.example.marketapp.model.client.Token
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import java.util.*

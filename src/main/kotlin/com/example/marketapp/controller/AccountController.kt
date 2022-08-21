@@ -1,9 +1,9 @@
 package com.example.marketapp.controller
 
-import com.example.marketapp.model.Address
-import com.example.marketapp.model.User
+import com.example.marketapp.model.client.Address
+import com.example.marketapp.model.client.User
 import com.example.marketapp.response.ApiResponse
-import com.example.marketapp.service.UserService
+import com.example.marketapp.service.client.UserService
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity

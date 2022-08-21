@@ -1,4 +1,4 @@
-package com.example.marketapp.service
+package com.example.marketapp.service.client
 
 import com.example.marketapp.exception.ApiException
 import org.springframework.beans.factory.annotation.Value

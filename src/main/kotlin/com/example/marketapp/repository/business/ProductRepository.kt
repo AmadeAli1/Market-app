@@ -1,11 +1,12 @@
-package com.example.marketapp.repository
+package com.example.marketapp.repository.business
 
-import com.example.marketapp.model.Product
+import com.example.marketapp.model.business.Product
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.r2dbc.repository.Modifying
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface ProductRepository : CoroutineCrudRepository<Product, Int> {
@@ -21,9 +22,12 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     fun findPage(start: Int): Flow<Product>
 
     @Query("select * from product where upper(product.name) like upper(concat($2,'%')) order by product.name limit 20 offset :$1")
-    fun findPageWithName(start: Int, name: String): Flow<Product>
+    fun findAllByName(start: Int, name: String): Flow<Product>
 
+    @Query("select * from product where upper(product.name) like upper(concat($2,'%')) and category_fk=$3 order by product.name limit 20 offset :$1")
+    fun findAllByNameAnAndCategory(start: Int, name: String, categoryId: Int): Flow<Product>
 
-    fun findAllByCategoryId(categoryId: Int): Flow<Product>
+    @Query("select * from product where category_fk=$2 order by product.name limit 20 offset :$1")
+    fun findAllByCategory(start: Int, categoryId: Int): Flow<Product>
 
 }

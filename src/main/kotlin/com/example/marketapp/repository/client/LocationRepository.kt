@@ -1,6 +1,6 @@
-package com.example.marketapp.repository
+package com.example.marketapp.repository.client
 
-import com.example.marketapp.model.Address
+import com.example.marketapp.model.client.Address
 import org.springframework.data.r2dbc.repository.Modifying
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository

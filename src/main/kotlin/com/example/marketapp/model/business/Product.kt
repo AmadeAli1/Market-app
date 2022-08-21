@@ -1,4 +1,4 @@
-package com.example.marketapp.model
+package com.example.marketapp.model.business
 
 import com.example.marketapp.response.ProductDTO
 import com.fasterxml.jackson.annotation.JsonIgnore

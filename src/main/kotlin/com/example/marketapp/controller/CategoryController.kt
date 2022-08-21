@@ -1,7 +1,7 @@
 package com.example.marketapp.controller
 
-import com.example.marketapp.model.Category
-import com.example.marketapp.service.CategoryService
+import com.example.marketapp.model.business.Category
+import com.example.marketapp.service.business.CategoryService
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

@@ -1,4 +1,4 @@
-package com.example.marketapp.model
+package com.example.marketapp.model.client
 
 import org.hibernate.validator.constraints.Length
 import org.springframework.data.annotation.Id

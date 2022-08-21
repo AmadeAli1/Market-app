@@ -1,7 +1,7 @@
-package com.example.marketapp.service
+package com.example.marketapp.service.client
 
-import com.example.marketapp.model.Address
-import com.example.marketapp.repository.LocationRepository
+import com.example.marketapp.model.client.Address
+import com.example.marketapp.repository.client.LocationRepository
 import org.springframework.stereotype.Service
 import java.util.*
 

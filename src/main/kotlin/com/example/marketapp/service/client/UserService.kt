@@ -1,11 +1,11 @@
-package com.example.marketapp.service
+package com.example.marketapp.service.client
 
 import com.example.marketapp.exception.ApiException
 import com.example.marketapp.exception.Message
 import com.example.marketapp.extra.ImageService
-import com.example.marketapp.model.Address
-import com.example.marketapp.model.User
-import com.example.marketapp.repository.AccountRepository
+import com.example.marketapp.model.client.Address
+import com.example.marketapp.model.client.User
+import com.example.marketapp.repository.client.AccountRepository
 import com.example.marketapp.response.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

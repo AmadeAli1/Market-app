@@ -1,10 +1,9 @@
-package com.example.marketapp.service
+package com.example.marketapp.service.client
 
-import com.example.marketapp.model.Token
-import com.example.marketapp.repository.AccountRepository
-import com.example.marketapp.repository.TokenRepository
-import com.example.marketapp.service.UserService.Companion.invalidBlock
-import kotlinx.coroutines.flow.flowOf
+import com.example.marketapp.model.client.Token
+import com.example.marketapp.repository.client.AccountRepository
+import com.example.marketapp.repository.client.TokenRepository
+import com.example.marketapp.service.client.UserService.Companion.invalidBlock
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
