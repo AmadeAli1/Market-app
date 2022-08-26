@@ -6,6 +6,7 @@ import com.example.marketapp.model.business.ShoppingCart
 import com.example.marketapp.repository.business.CategoryRepository
 import com.example.marketapp.repository.business.ProductRepository
 import com.example.marketapp.repository.business.ShoppingRepository
+import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.response.ShoppingCartDTO
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -22,42 +23,20 @@ class ShoppingService(
     private val categoryRepository: CategoryRepository,
 ) {
 
-    suspend fun addToShoppingCart(shoppingCart: ShoppingCart): String {
-        val exists =
-            repository.existsByProductIdAndUserId(productId = shoppingCart.productId, userId = shoppingCart.userId)
-        //Create item
-        println("Here 2 $exists")
-        if (!exists) {
-            try {
-                println("Begin save")
-                val cart = repository.save(entity = shoppingCart)
-                println("here 3 = saved:: $cart   id=${cart.id}")
-            } catch (e: Exception) {
-                println("here exception:: ${e.message}")
-                throw ApiException(e.message!!)
+    suspend fun addToShoppingCart(shoppingCart: ShoppingCart): ApiResponse<String> {
+        val exists = repository.findByProductIdAndUserId(shoppingCart.productId, shoppingCart.userId)
+        return try {
+            if (exists == null) {
+                repository.save(entity = shoppingCart)
+                ApiResponse(CREATED)
+            } else {
+                shoppingCart.id = exists.id
+                repository.save(entity = shoppingCart)
+                ApiResponse(UPDATED)
             }
-            return CREATED
+        } catch (e: Exception) {
+            throw ApiException(e.message!!)
         }
-
-        //Update Section
-        val oldShoppingCart = repository.findById(shoppingCart.id!!)
-        if (oldShoppingCart != null) {
-            println("Here updated")
-            if (oldShoppingCart.quantity != shoppingCart.quantity || oldShoppingCart.unitPrice != shoppingCart.unitPrice) {
-                println("In updated")
-                shoppingCart.id = oldShoppingCart.id
-                try {
-                    val cart = repository.save(entity = shoppingCart)
-                    println("In updated $cart  ")
-                } catch (e: Exception) {
-                    println("In updated error")
-                    throw ApiException(e.message!!)
-                }
-                return UPDATED
-            }
-
-        }
-        return EMPTY
     }
 
     @OptIn(FlowPreview::class)
@@ -100,7 +79,6 @@ class ShoppingService(
     companion object {
         private val CREATED = "Item was added in shopping cart"
         private val UPDATED = "Item has been updated in shopping cart"
-        private val EMPTY = ""
     }
 
 

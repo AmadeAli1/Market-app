@@ -14,7 +14,7 @@ import java.util.*
 @Repository
 interface ShoppingRepository : CoroutineCrudRepository<ShoppingCart, Int> {
 
-    suspend fun existsByProductIdAndUserId(productId: Int, userId: UUID): Boolean
+    suspend fun findByProductIdAndUserId(productId: Int, userId: UUID):ShoppingCart?
 
     @Query("SELECT * FROM product p join shoppingcart s on p.id = s.product_fk where user_fk=$1")
     fun findByUserId(userId: UUID): Flow<Product>
