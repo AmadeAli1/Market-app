@@ -1,5 +1,5 @@
 package com.example.marketapp.response
 
-data class ApiResponse(
-    val message: String,
+data class ApiResponse<T>(
+    val message: T,
 )

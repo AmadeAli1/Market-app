@@ -81,7 +81,7 @@ class UserService(
         return tokenService.confirmToken(tokenId = token)
     }
 
-    suspend fun changeProfilePicture(userId: String, imageUrl: String?): ResponseEntity<ApiResponse> {
+    suspend fun changeProfilePicture(userId: String, imageUrl: String?): ResponseEntity<ApiResponse<String>> {
         val user = accountRepository.findById(UUID.fromString(userId))!!
         return if (imageUrl != null) {
             user.imageUrl = imageUrl

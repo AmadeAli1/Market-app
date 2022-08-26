@@ -1,6 +1,7 @@
 package com.example.marketapp.controller
 
 import com.example.marketapp.model.business.ShoppingCart
+import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.response.ShoppingCartDTO
 import com.example.marketapp.service.business.ShoppingService
 import kotlinx.coroutines.flow.Flow
@@ -14,10 +15,11 @@ import javax.validation.Valid
 class ShoppingController(private val service: ShoppingService) {
 
     @PostMapping("/add")
-    suspend fun add(@Valid @RequestBody shoppingCart: ShoppingCart): ResponseEntity<String> {
+    suspend fun add(@Valid @RequestBody shoppingCart: ShoppingCart): ResponseEntity<ApiResponse<String>> {
         println("Here: $shoppingCart")
         val cart = service.addToShoppingCart(shoppingCart)
-        return ResponseEntity(cart, HttpStatus.CREATED)
+        println("Message:: $cart")
+        return ResponseEntity(ApiResponse(cart), HttpStatus.CREATED)
     }
 
     @GetMapping("/user/{id}")
