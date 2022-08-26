@@ -26,12 +26,14 @@ class ShoppingService(
         val exists =
             repository.existsByProductIdAndUserId(productId = shoppingCart.productId, userId = shoppingCart.userId)
         //Create item
-        println("Here 2")
+        println("Here 2 $exists")
         if (!exists) {
             try {
+                println("Begin save")
                 val cart = repository.save(entity = shoppingCart)
                 println("here 3 = saved:: $cart   id=${cart.id}")
             } catch (e: Exception) {
+                println("here exception:: ${e.message}")
                 throw ApiException(e.message!!)
             }
             return CREATED
