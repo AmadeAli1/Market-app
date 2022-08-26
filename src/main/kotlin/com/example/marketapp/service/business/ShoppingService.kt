@@ -32,13 +32,15 @@ class ShoppingService(
         }
 
         //Update Section
-        val oldShoppingCart = repository.findById(shoppingCart.id!!)!!
-        if (oldShoppingCart.quantity != shoppingCart.quantity || oldShoppingCart.unitPrice != shoppingCart.unitPrice) {
-            shoppingCart.id = oldShoppingCart.id
-            repository.save(entity = shoppingCart)
-            return UPDATED
-        }
+        val oldShoppingCart = repository.findById(shoppingCart.id!!)
+        if (oldShoppingCart != null) {
+            if (oldShoppingCart.quantity != shoppingCart.quantity || oldShoppingCart.unitPrice != shoppingCart.unitPrice) {
+                shoppingCart.id = oldShoppingCart.id
+                repository.save(entity = shoppingCart)
+                return UPDATED
+            }
 
+        }
         return EMPTY
     }
 
