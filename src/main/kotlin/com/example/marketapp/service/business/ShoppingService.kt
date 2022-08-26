@@ -28,16 +28,29 @@ class ShoppingService(
         //Create item
         println("Here 2")
         if (!exists) {
-            repository.save(entity = shoppingCart)
+            try {
+                val cart = repository.save(entity = shoppingCart)
+                println("here 3 = saved:: $cart   id=${cart.id}")
+            } catch (e: Exception) {
+                throw ApiException(e.message!!)
+            }
             return CREATED
         }
 
         //Update Section
         val oldShoppingCart = repository.findById(shoppingCart.id!!)
         if (oldShoppingCart != null) {
+            println("Here updated")
             if (oldShoppingCart.quantity != shoppingCart.quantity || oldShoppingCart.unitPrice != shoppingCart.unitPrice) {
+                println("In updated")
                 shoppingCart.id = oldShoppingCart.id
-                repository.save(entity = shoppingCart)
+                try {
+                    val cart = repository.save(entity = shoppingCart)
+                    println("In updated $cart  ")
+                } catch (e: Exception) {
+                    println("In updated error")
+                    throw ApiException(e.message!!)
+                }
                 return UPDATED
             }
 
