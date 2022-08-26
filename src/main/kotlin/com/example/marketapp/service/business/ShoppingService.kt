@@ -26,6 +26,7 @@ class ShoppingService(
         val exists =
             repository.existsByProductIdAndUserId(productId = shoppingCart.productId, userId = shoppingCart.userId)
         //Create item
+        println("Here 2")
         if (!exists) {
             repository.save(entity = shoppingCart)
             return CREATED

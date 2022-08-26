@@ -15,6 +15,7 @@ class ShoppingController(private val service: ShoppingService) {
 
     @PostMapping("/add")
     suspend fun add(@Valid @RequestBody shoppingCart: ShoppingCart): ResponseEntity<String> {
+        println("Here: $shoppingCart")
         val cart = service.addToShoppingCart(shoppingCart)
         return ResponseEntity(cart, HttpStatus.CREATED)
     }
