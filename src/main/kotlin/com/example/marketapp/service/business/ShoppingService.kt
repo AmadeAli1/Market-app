@@ -8,8 +8,12 @@ import com.example.marketapp.repository.business.ProductRepository
 import com.example.marketapp.repository.business.ShoppingRepository
 import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.response.ShoppingCartDTO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -37,12 +41,11 @@ class ShoppingService(
     }
 
     @OptIn(FlowPreview::class)
-    suspend fun findShoppingCart(userId: String): Flow<ShoppingCartDTO> {
+    suspend fun findShoppingCart(userId: String): Flow<ShoppingCartDTO> = withContext(Dispatchers.Default) {
         val id = UUID.fromString(userId)
-        val myCart = repository.findAllById(userId = id)
-        return myCart.flatMapMerge { shop ->
-            repository.findByUserId(userId = id).map(::mapper).map { mapperDTO(it, shop) }
-        }
+        val shops = repository.findAllById(userId = id).toList()
+        return@withContext repository.findByUserId(userId = id).map(::mapper)
+            .map { mapperDTO(it, shops.first { sp -> sp.productId == it.id }) }
     }
 
     suspend fun deleteShoppingCart(id: Int): Boolean {
