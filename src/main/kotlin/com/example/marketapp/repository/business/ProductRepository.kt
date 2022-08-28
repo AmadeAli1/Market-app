@@ -31,20 +31,25 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     fun findAllByCategory(start: Int, categoryId: Int): Flow<Product>
 
 
-    //    @Modifying
-//    @Query("DELETE from usuarioitemlike where userid=$1 and itemid=$2")
-//    suspend fun remover_like_do_usuario(userId: String, itemId: Int): Int
-//
-//
-//    @Modifying
-//    @Query("update item set likes=likes+1 where id=$1")
-//    suspend fun adicionar_like_ao_item(itemId: Int): Int
-//
-//    @Modifying
-//    @Query("update item set likes=likes-1 where id=$1")
-//    suspend fun remover_like_do_item(itemId: Int): Int
-//
-//    @Query("select exists(select * from usuarioitemlike where userid=$1 and itemid=$2)")
-//    suspend fun verificar_existencia_de_like_do_usuario(userId: String, itemId: Int): Boolean
+    @Modifying
+    @Query("DELETE from userlike where user_fk=$1 and product_fk=$2")
+    suspend fun removeLike(userId: UUID, productId: Int): Int
 
+    @Modifying
+    @Query("update product set likes=likes+1 where id=$1")
+    suspend fun addLike(productId: Int): Int
+
+    @Modifying
+    @Query("INSERT INTO userlike (user_fk,product_fk) values (:?1,:?2)")
+    suspend fun addUserLike(userId: UUID, productId: Int): Int
+
+    @Modifying
+    @Query("update product set likes=likes-1 where id=$1")
+    suspend fun removeLike(productId: Int): Int
+
+    @Query("select exists(select * from userlike where user_fk=$1 and product_fk=$2)")
+    suspend fun verifyUserLike(userId: UUID, productId: Int): Boolean
+
+    @Query("SELECT * FROM userlike WHERE user_fk=$1")
+    suspend fun findAllUserLikes(userId: UUID): Flow<Product.UserLike>
 }

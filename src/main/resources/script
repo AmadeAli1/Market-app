@@ -76,8 +76,14 @@ create table if not exists address
 
 create table if not exists shoppingCart
 (
-    produto_fk int    not null references product (id) on delete cascade on update cascade,
+    product_fk int    not null references product (id) on delete cascade on update cascade,
     user_fk    uuid   not null references usuario (uid) on delete cascade on update cascade,
     quantity   int    not null check ( quantity > 0 ),
     unitPrice  float8 not null check ( unitPrice > 0 )
+);
+
+create table if not exists userLike
+(
+    product_fk int  not null references product (id) on delete cascade on update cascade,
+    user_fk    uuid not null references usuario (uid) on delete cascade on update cascade
 );

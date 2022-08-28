@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -46,6 +47,12 @@ data class Product(
             calories = calories
         )
     }
+
+    @Table("userlike")
+    data class UserLike(
+        @Column("user_fk") val userId: UUID,
+        @Column("product_fk") val productId: Int,
+    ) {}
 
     constructor() : this("", 0f, description = "", categoryId = -1, duration = "1-2", calories = 100)
 

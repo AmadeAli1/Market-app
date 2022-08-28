@@ -2,11 +2,13 @@ package com.example.marketapp.controller
 
 import com.example.marketapp.extra.ValidationRequest
 import com.example.marketapp.model.business.Product
+import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.response.Page
 import com.example.marketapp.response.ProductDTO
 import com.example.marketapp.service.business.ProductService
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -65,5 +67,18 @@ class ProductController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
+    @PostMapping("/likes/{userId}/{productId}")
+    suspend fun addLike(
+        @PathVariable("userId", required = true) userId: String,
+        @PathVariable("productId", required = true) productId: Int,
+    ): ResponseEntity<ApiResponse<Boolean>> {
+        return ResponseEntity.ok(productService.addLike(userId, productId))
+    }
 
+    @GetMapping("/likes/{userId}")
+    suspend fun findAllLikes(
+        @PathVariable("userId", required = true) userId: String,
+    ): Flow<Product.UserLike> {
+        return productService.findAllUserLike(userId)
+    }
 }
