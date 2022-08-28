@@ -50,6 +50,6 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     @Query("select exists(select * from userlike where user_fk=$1 and product_fk=$2)")
     suspend fun verifyUserLike(userId: UUID, productId: Int): Boolean
 
-    @Query("SELECT * FROM userlike WHERE user_fk=$1")
-    suspend fun findAllUserLikes(userId: UUID): Flow<Product.UserLike>
+    @Query("SELECT * FROM userlike WHERE user_fk=$1 and product_fk=$2")
+    suspend fun findProductWithLike(userId: UUID, productId: Int): Product.UserLike?
 }

@@ -9,7 +9,6 @@ import com.example.marketapp.repository.business.ProductRepository
 import com.example.marketapp.response.ApiResponse
 import com.example.marketapp.response.ProductDTO
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
@@ -79,8 +78,10 @@ class ProductService(
         }
     }
 
-    suspend fun findAllUserLike(userId: String): Flow<Product.UserLike> {
-        return repository.findAllUserLikes(userId = UUID.fromString(userId))
+    suspend fun findProductWithLike(userId: String, productId: Int): ApiResponse<Boolean> {
+        val id = UUID.fromString(userId)
+        val isLike = repository.findProductWithLike(userId = id, productId = productId) != null
+        return ApiResponse(isLike)
     }
 
     suspend fun existsLike(userId: String, productId: Int): Boolean {

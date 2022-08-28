@@ -8,7 +8,6 @@ import com.example.marketapp.response.ProductDTO
 import com.example.marketapp.service.business.ProductService
 import com.fasterxml.jackson.databind.json.JsonMapper
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -75,10 +74,12 @@ class ProductController(
         return ResponseEntity.ok(productService.addLike(userId, productId))
     }
 
-    @GetMapping("/likes/{userId}")
+    @GetMapping("/likes/{userId}/{productId}")
     suspend fun findAllLikes(
         @PathVariable("userId", required = true) userId: String,
-    ): Flow<Product.UserLike> {
-        return productService.findAllUserLike(userId)
+        @PathVariable("productId", required = true) productId: Int,
+    ): ApiResponse<Boolean> {
+        return productService.findProductWithLike(userId, productId = productId)
     }
+
 }
