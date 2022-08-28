@@ -70,8 +70,9 @@ class ProductService(
                 if (addLike == 1) {
                     repository.addLike(productId)
                     ApiResponse(true)
+                } else {
+                    throw ApiException("An error occurred to add like!")
                 }
-                throw ApiException("An error occurred to add like!")
             }
         } catch (e: Exception) {
             throw ApiException(e.message!!)
