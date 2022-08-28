@@ -26,13 +26,9 @@ class ShoppingController(private val service: ShoppingService) {
     }
 
     @DeleteMapping("/{id}")
-    suspend fun remove(@PathVariable("id", required = true) id: Int): ResponseEntity<ApiResponse<String>> {
+    suspend fun remove(@PathVariable("id", required = true) id: Int): ResponseEntity<ApiResponse<Int>> {
         val cart = service.deleteShoppingCart(id)
-        val message = if (cart) {
-            "Item removed from shopping cart"
-        } else {
-            "Failed to remove the item"
-        }
+        val message = if (cart) id else -1
         return ResponseEntity.ok(ApiResponse(message))
     }
 
