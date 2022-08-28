@@ -41,7 +41,9 @@ data class Product(
             images = images!!,
             description = description,
             avalible = avalible,
-            date = createdAt.format(DateTimeFormatter.ISO_DATE_TIME)
+            date = createdAt.format(DateTimeFormatter.ISO_DATE_TIME),
+            duration = duration,
+            calories = calories
         )
     }
 

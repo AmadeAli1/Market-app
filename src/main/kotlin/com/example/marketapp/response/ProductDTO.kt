@@ -11,5 +11,7 @@ data class ProductDTO(
     val avalible: Boolean,
     val date: String,
     val description: String,
+    val duration: String,
+    val calories: Int,
     val images: List<String>,
 )
