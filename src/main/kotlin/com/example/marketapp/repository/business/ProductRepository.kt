@@ -30,4 +30,21 @@ interface ProductRepository : CoroutineCrudRepository<Product, Int> {
     @Query("select * from product where category_fk=$2 order by product.name limit 20 offset :$1")
     fun findAllByCategory(start: Int, categoryId: Int): Flow<Product>
 
+
+    //    @Modifying
+//    @Query("DELETE from usuarioitemlike where userid=$1 and itemid=$2")
+//    suspend fun remover_like_do_usuario(userId: String, itemId: Int): Int
+//
+//
+//    @Modifying
+//    @Query("update item set likes=likes+1 where id=$1")
+//    suspend fun adicionar_like_ao_item(itemId: Int): Int
+//
+//    @Modifying
+//    @Query("update item set likes=likes-1 where id=$1")
+//    suspend fun remover_like_do_item(itemId: Int): Int
+//
+//    @Query("select exists(select * from usuarioitemlike where userid=$1 and itemid=$2)")
+//    suspend fun verificar_existencia_de_like_do_usuario(userId: String, itemId: Int): Boolean
+
 }

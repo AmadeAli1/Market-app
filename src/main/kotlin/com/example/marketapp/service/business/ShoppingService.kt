@@ -43,12 +43,10 @@ class ShoppingService(
     suspend fun findShoppingCart(userId: String): Flow<ShoppingCartDTO> {
         val id = UUID.fromString(userId)
         val myCart = repository.findAllById(userId = id)
-        val transform: suspend (value: Flow<ShoppingCartDTO>) -> Flow<ShoppingCartDTO> = {
-            it
-        }
-        return myCart.map { shop ->
+
+        return myCart.flatMapConcat { shop ->
             repository.findByUserId(userId = id).map(::mapper).map { mapperDTO(it, shop) }
-        }.flatMapConcat(transform)
+        }
     }
 
     suspend fun deleteShoppingCart(id: Int): Boolean {
