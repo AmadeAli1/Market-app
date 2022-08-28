@@ -18,6 +18,8 @@ data class Product(
     @field:Min(0) @Column("price") val price: Float,
     @Column("likes") var like: Int = 0,
     @Column("avalible") var avalible: Boolean = true,
+    @field:NotBlank @Column("duration") var duration: String,
+    @field:NotBlank @Column("calories") var calories: Int,
     @field:JsonIgnore @Column("createdat") val createdAt: LocalDateTime = LocalDateTime.now(),
     @field:NotBlank @Column("description") var description: String,
     @field:NotNull @Column("category_fk") val categoryId: Int,
@@ -43,6 +45,6 @@ data class Product(
         )
     }
 
-    constructor() : this("", 0f, description = "", categoryId = -1)
+    constructor() : this("", 0f, description = "", categoryId = -1, duration = "1-2", calories = 100)
 
 }

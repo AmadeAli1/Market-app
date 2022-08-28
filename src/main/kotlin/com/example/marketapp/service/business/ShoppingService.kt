@@ -42,7 +42,6 @@ class ShoppingService(
     @OptIn(FlowPreview::class)
     suspend fun findShoppingCart(userId: String): Flow<ShoppingCartDTO> {
         val id = UUID.fromString(userId)
-
         val myCart = repository.findAllById(userId = id)
         val transform: suspend (value: Flow<ShoppingCartDTO>) -> Flow<ShoppingCartDTO> = {
             it
@@ -56,7 +55,7 @@ class ShoppingService(
         try {
             return repository.removeById(id) == 1
         } catch (e: Exception) {
-            throw ApiException("An error occurred to remove item !")
+            throw ApiException(e.message!!)
         }
     }
 
@@ -77,8 +76,8 @@ class ShoppingService(
     }
 
     companion object {
-        private val CREATED = "Item was added in shopping cart"
-        private val UPDATED = "Item has been updated in shopping cart"
+        private const val CREATED = "Item was added in shopping cart"
+        private const val UPDATED = "Item has been updated in shopping cart"
     }
 
 
